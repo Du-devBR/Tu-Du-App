@@ -1,5 +1,6 @@
 package com.app.tudu.entity;
 
+import com.app.tudu.entity._enum.EnumCategory;
 import com.app.tudu.entity._enum.EnumStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -26,9 +27,18 @@ public class TaskEntity {
     @Column(nullable = false)
     private String description;
 
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Timestamp createAt;
+
+
+    private Timestamp startDate;
+
+
+    private Timestamp endDate;
 
     @Enumerated(EnumType.STRING)
     private EnumStatus statusTask;
+
+    @Enumerated(EnumType.STRING)
+    private EnumCategory category;
 }

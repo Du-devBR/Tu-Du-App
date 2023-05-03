@@ -1,6 +1,7 @@
 package com.app.tudu.controller;
 
 import com.app.tudu.entity.TaskEntity;
+import com.app.tudu.entity._enum.EnumCategory;
 import com.app.tudu.exception.ResourceNotFoundException;
 import com.app.tudu.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +38,16 @@ public class TaskController {
     @DeleteMapping
     public void deleteTask(@RequestParam("id") Long id) throws ResourceNotFoundException{
         service.deleteTask(id);
+    }
+
+    @GetMapping("/{id}")
+    public TaskEntity getTaskById(@PathVariable Long id) throws ResourceNotFoundException {
+        return  service.findTaskById(id);
+    }
+
+    @GetMapping("/byCategory/{category}")
+    public List<TaskEntity> getTasksByCategory(@PathVariable EnumCategory category){
+        return  service.findTaskByCategory(category);
     }
 
 }

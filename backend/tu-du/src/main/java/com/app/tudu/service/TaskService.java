@@ -1,6 +1,7 @@
 package com.app.tudu.service;
 
 import com.app.tudu.entity.TaskEntity;
+import com.app.tudu.entity._enum.EnumCategory;
 import com.app.tudu.exception.ResourceNotFoundException;
 import com.app.tudu.repository.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class TaskService {
         if(taskEntity.isPresent()){
             TaskEntity task = taskEntity.get();
             task.setCreateAt(updateTask.getCreateAt());
+            task.setStartDate(updateTask.getStartDate());
+            task.setEndDate(updateTask.getEndDate());
             task.setStatusTask(updateTask.getStatusTask());
             repository.save(task);
         }else {
@@ -48,6 +51,9 @@ public class TaskService {
         }
         return task;
 
+    }
+    public List<TaskEntity> findTaskByCategory(EnumCategory category){
+        return repository.findByCategory(category);
     }
 
 }
