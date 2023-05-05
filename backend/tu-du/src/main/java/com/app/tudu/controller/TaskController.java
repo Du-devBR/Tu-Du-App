@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/tasks")
+@RequestMapping("/api")
 @CrossOrigin("*")
 public class TaskController {
     private final TaskService service;
@@ -33,24 +33,25 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/tasks/{id}")
     public void updateTask(@PathVariable Long id, @RequestBody TaskEntity updateTask) throws ResourceNotFoundException{
         service.updateTask(id, updateTask);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/tasks")
     public void deleteTask(@RequestParam("id") Long id) throws ResourceNotFoundException{
         service.deleteTask(id);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/tasks/{id}")
     public TaskEntity getTaskById(@PathVariable Long id) throws ResourceNotFoundException {
         return  service.findTaskById(id);
     }
 
-    @GetMapping("/byCategory/{category}")
-    public List<TaskEntity> getTasksByCategory(@PathVariable EnumCategory category){
-        return  service.findTaskByCategory(category);
+    @GetMapping("/tasks/{userId}/category/{category}")
+    public ResponseEntity<List<TaskEntity>> getTasksByCategory(@PathVariable long userId, @PathVariable EnumCategory category) throws ResourceNotFoundException{
+        List<TaskEntity> tasks = service.findTaskByCategory(userId, category);
+        return  ResponseEntity.ok().body(tasks);
     }
 
 }

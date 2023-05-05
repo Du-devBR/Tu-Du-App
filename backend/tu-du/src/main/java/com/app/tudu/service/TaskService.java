@@ -69,8 +69,10 @@ public class TaskService {
         return task;
 
     }
-    public List<TaskEntity> findTaskByCategory(EnumCategory category){
-        return taskRepository.findByCategory(category);
+    public List<TaskEntity> findTaskByCategory(Long userId, EnumCategory category) throws ResourceNotFoundException {
+        UserEntity user = userRepository.findById(userId).
+                orElseThrow(() -> new ResourceNotFoundException("Erro ao buscar categoria"));
+        return taskRepository.findByCategoryAndUser(user.getId(), category);
     }
 
 }

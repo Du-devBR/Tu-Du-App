@@ -10,19 +10,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api")
 @CrossOrigin("*")
 public class UserController {
 
     @Autowired
     UserService service;
 
-    @PostMapping
+    @PostMapping("/user")
     public UserEntity createUser(@RequestBody UserEntity user){
         return service.saveUser(user);
     }
 
-    @PutMapping("/{id}/password")
+    @PutMapping("/user/{id}/password")
     public ResponseEntity<Void> updatePassword(
             @PathVariable Long id, @RequestParam String email, @RequestParam String password
     ) throws ResourceNotFoundException {
