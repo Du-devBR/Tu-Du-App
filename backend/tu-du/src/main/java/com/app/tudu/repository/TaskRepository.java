@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface TaskRepository extends JpaRepository<TaskEntity, Long> {
     List<TaskEntity> findByCategory(EnumCategory category);
+    List<TaskEntity> findByUserEntityId(Long id);
 }

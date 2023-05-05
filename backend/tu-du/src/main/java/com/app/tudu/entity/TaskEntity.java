@@ -9,6 +9,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -28,17 +30,20 @@ public class TaskEntity {
     private String description;
 
     @Column(nullable = true)
-    private Timestamp createAt;
+    private LocalDateTime createAt;
+
+    private LocalDateTime startDate;
 
 
-    private Timestamp startDate;
-
-
-    private Timestamp endDate;
+    private LocalDateTime endDate;
 
     @Enumerated(EnumType.STRING)
     private EnumStatus statusTask;
 
     @Enumerated(EnumType.STRING)
     private EnumCategory category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fk_user", nullable = false, referencedColumnName = "id")
+    private  UserEntity userEntity;
 }

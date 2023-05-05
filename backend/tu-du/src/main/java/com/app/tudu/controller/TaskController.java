@@ -5,6 +5,8 @@ import com.app.tudu.entity._enum.EnumCategory;
 import com.app.tudu.exception.ResourceNotFoundException;
 import com.app.tudu.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,14 +22,15 @@ public class TaskController {
         this.service = taskService;
     }
 
-    @GetMapping
-    public List<TaskEntity> getAllTasks() {
-        return service.findAllTasks();
+    @GetMapping("/users/{id}/tasks")
+    public List<TaskEntity> getAllTasksByUserId(@PathVariable Long id) throws ResourceNotFoundException {
+        return service.findAllTasks(id);
     }
 
-    @PostMapping
-    public TaskEntity createTask(@RequestBody TaskEntity task) {
-        return service.saveTask(task);
+    @PostMapping("/users/{id}/tasks")
+    public ResponseEntity<TaskEntity> createTask(@PathVariable Long id, @RequestBody TaskEntity task) throws ResourceNotFoundException {
+        TaskEntity savedTask = service.saveTask(id, task);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
     }
 
     @PutMapping("/{id}")
