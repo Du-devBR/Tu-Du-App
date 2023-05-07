@@ -33,14 +33,14 @@ public class TaskController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedTask);
     }
 
-    @PutMapping("/tasks/{id}")
-    public void updateTask(@PathVariable Long id, @RequestBody TaskEntity updateTask) throws ResourceNotFoundException{
-        service.updateTask(id, updateTask);
+    @PutMapping("/user/{userId}/tasks/{id}")
+    public void updateTask(@PathVariable Long userId, @PathVariable Long id, @RequestBody TaskEntity updateTask) throws ResourceNotFoundException{
+        service.updateTask(userId, id, updateTask);
     }
 
-    @DeleteMapping("/tasks")
-    public void deleteTask(@RequestParam("id") Long id) throws ResourceNotFoundException{
-        service.deleteTask(id);
+    @DeleteMapping("/user/{userId}/tasks")
+    public void deleteTask(@PathVariable Long userId, @RequestParam("id") Long id) throws ResourceNotFoundException{
+        service.deleteTask(userId, id);
     }
 
     @GetMapping("/tasks/{id}")
@@ -48,7 +48,7 @@ public class TaskController {
         return  service.findTaskById(id);
     }
 
-    @GetMapping("/tasks/{userId}/category/{category}")
+    @GetMapping("/user/{userId}/tasks/category/{category}")
     public ResponseEntity<List<TaskEntity>> getTasksByCategory(@PathVariable long userId, @PathVariable EnumCategory category) throws ResourceNotFoundException{
         List<TaskEntity> tasks = service.findTaskByCategory(userId, category);
         return  ResponseEntity.ok().body(tasks);

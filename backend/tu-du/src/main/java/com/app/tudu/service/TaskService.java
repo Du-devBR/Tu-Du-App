@@ -36,28 +36,48 @@ public class TaskService {
         return taskRepository.findByUserEntityId(id);
     }
 
-    public void updateTask(Long id, TaskEntity updateTask) throws ResourceNotFoundException{
+//    Para garantir a integridade da aplicação, somente é possivel atualizar uma task passando o id do usuario
+//    correspondente a tarefa.
+
+    public void updateTask(Long userId, Long id, TaskEntity updateTask) throws ResourceNotFoundException{
         Optional<TaskEntity> taskEntity = taskRepository.findById(id);
         if(taskEntity.isPresent()){
             TaskEntity task = taskEntity.get();
-            task.setStatusTask(updateTask.getStatusTask());
+            if(task.getUserEntity().getId().equals(userId)){
+                task.setStatusTask(updateTask.getStatusTask());
 
-            if (updateTask.getStatusTask() ==  EnumStatus.INICIDADO) {
-                task.setStartDate(LocalDateTime.now());
-            }
+                if (updateTask.getStatusTask() ==  EnumStatus.INICIADO) {
+                    task.setStartDate(LocalDateTime.now());
+                }
 
-            if (updateTask.getStatusTask() ==  EnumStatus.CONCLUIDO) {
-                task.setEndDate(LocalDateTime.now());
+                if (updateTask.getStatusTask() ==  EnumStatus.CONCLUIDO) {
+                    task.setEndDate(LocalDateTime.now());
+                }
+                taskRepository.save(task);
+            }else {
+                throw new ResourceNotFoundException("Tarefa não pertence ao usuario.");
             }
-            taskRepository.save(task);
         }else {
-            throw new ResourceNotFoundException("ID não cadastrado.");
+            throw new ResourceNotFoundException("Erro ao atualizar a tarefa, id não existe.");
         }
     }
 
-    public void deleteTask(Long id) throws ResourceNotFoundException {
-        taskRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Erro ao excluir a tarefa, id não existe."));
-        taskRepository.deleteById(id);
+    //    Para garantir a integridade da aplicação, somente é possivel exluir uma task passando o id do usuario
+    //    correspondente a tarefa.
+
+    public void deleteTask(Long userId, Long id) throws ResourceNotFoundException {
+        Optional<TaskEntity> taskEntity = taskRepository.findById(id);
+        if (taskEntity.isPresent()){
+            TaskEntity task = taskEntity.get();
+            if(task.getUserEntity().getId().equals(userId)){
+                taskRepository.deleteById(id);
+            }else {
+                throw new ResourceNotFoundException("Tarefa não pertence ao usuario.");
+            }
+        }else {
+            throw new ResourceNotFoundException("Erro ao excluir a tarefa, id não existe.");
+        }
+
     }
 
     public TaskEntity findTaskById(Long id) throws ResourceNotFoundException{
