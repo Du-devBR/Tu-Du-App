@@ -8,6 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
@@ -30,12 +31,11 @@ public class TaskEntity {
     private String description;
 
     @Column(nullable = true)
-    private LocalDateTime createAt;
+    private Date createAt;
 
-    private LocalDateTime startDate;
+    private Date startDate;
 
-
-    private LocalDateTime endDate;
+    private Date endDate;
 
     @Enumerated(EnumType.STRING)
     private EnumStatus statusTask;

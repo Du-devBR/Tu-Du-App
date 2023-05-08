@@ -22,13 +22,13 @@ public class UserController {
         return service.saveUser(user);
     }
 
-    @PutMapping("/user/{id}/password")
-    public ResponseEntity<Void> updatePassword(
-            @PathVariable Long id, @RequestParam String email, @RequestParam String password
-    ) throws ResourceNotFoundException {
-        service.updatePassword(id, email, password);
-        return ResponseEntity.noContent().build();
-    }
+//    @PutMapping("/user/{id}/password")
+//    public ResponseEntity<Void> updatePassword(
+//            @PathVariable Long id, @RequestParam String email, @RequestParam String password
+//    ) throws ResourceNotFoundException {
+//        service.updatePassword(id, email, password);
+//        return ResponseEntity.noContent().build();
+//    }
 
 
 

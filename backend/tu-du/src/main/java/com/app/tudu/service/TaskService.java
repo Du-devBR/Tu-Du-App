@@ -10,6 +10,9 @@ import com.app.tudu.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +28,10 @@ public class TaskService {
     public TaskEntity saveTask(Long id, TaskEntity task) throws ResourceNotFoundException {
         UserEntity user = userRepository.findById(id).
                 orElseThrow(()-> new ResourceNotFoundException("Usuario não encontrado"));
-        task.setCreateAt(LocalDateTime.now());
+//        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        Date cuurentDate = new Date();
+//        String formattedDate = format.format(cuurentDate);
+        task.setCreateAt(new Date());
         task.setUserEntity(user);
         return taskRepository.save(task);
     }
@@ -47,11 +53,11 @@ public class TaskService {
                 task.setStatusTask(updateTask.getStatusTask());
 
                 if (updateTask.getStatusTask() ==  EnumStatus.INICIADO) {
-                    task.setStartDate(LocalDateTime.now());
+                    task.setStartDate(new Date());
                 }
 
                 if (updateTask.getStatusTask() ==  EnumStatus.CONCLUIDO) {
-                    task.setEndDate(LocalDateTime.now());
+                    task.setEndDate(new Date());
                 }
                 taskRepository.save(task);
             }else {
