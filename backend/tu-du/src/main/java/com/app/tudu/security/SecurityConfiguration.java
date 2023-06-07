@@ -33,7 +33,7 @@ import java.util.List;
 
 @Configuration
 @EnableWebSecurity
-public class SecurityConfiguration {
+public class SecurityConfiguration implements WebMvcConfigurer {
 
 
     private final AuthService authTokenService;
@@ -46,11 +46,6 @@ public class SecurityConfiguration {
         this.authTokenService = authTokenService;
         this.filterToken = filterToken;
         this.passwordEncoder = passwordEncoder;
-    }
-
-    @Bean
-    public PasswordEncoder encoder(){
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -78,7 +73,7 @@ public class SecurityConfiguration {
                 .requestMatchers(HttpMethod.DELETE, "/api/**").permitAll()
                 .requestMatchers(HttpMethod.PUT, "/api/**").permitAll()
                 .anyRequest().authenticated().and().csrf().disable()
-                .addFilterBefore((Filter) filterToken, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(filterToken, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 
@@ -90,39 +85,10 @@ public class SecurityConfiguration {
         }
     }
 
-    @Configuration
-    @EnableWebMvc
-    public class WebMvcConfig implements WebMvcConfigurer {
-
-        @Override
-        public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-            ObjectMapper mapper = new ObjectMapper();
-            mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
-            mapper.addMixIn(Object.class, IgnoreHibernatePropertiesInSerialization.class);
-
-            converters.add(new MappingJackson2HttpMessageConverter(mapper));
-        }
-
-        @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-        abstract class IgnoreHibernatePropertiesInSerialization {}
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**")
+                .allowedOrigins("*")
+                .allowedMethods("GET", "POST", "PUT", "DELETE");
     }
-
-    @Bean
-    public WebMvcConfigurer corsConfigurer() {
-        return new WebMvcConfigurer() {
-            @Override
-            public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/**")
-                        .allowedOrigins("*")
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")
-                        .allowedHeaders("*");
-            }
-        };
-    }
-
-
-
-
-
-
 }
