@@ -4,6 +4,8 @@ import com.app.tudu.entity._enum.EnumCategory;
 import com.app.tudu.entity._enum.EnumRole;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,15 +30,20 @@ public class UserEntity implements UserDetails {
     private Long id;
 
     @Column(nullable = false)
+    @NotBlank
     private String name;
 
     @Column(nullable = false)
+    @NotBlank
     private String lastname;
 
     @Column(nullable = false)
+    @NotBlank
+    @Email
     private String username;
 
     @Column(nullable = false)
+    @NotBlank
     private String password;
 
 //    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
