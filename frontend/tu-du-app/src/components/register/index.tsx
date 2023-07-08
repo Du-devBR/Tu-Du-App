@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import { IRootState } from "../../redux/store"
 import { useDispatch, useSelector } from "react-redux"
-import { fetchPostUser } from "../../redux/reducer/actions"
+import { fetchPostUser } from "../../redux/reducer/register/action"
 
 export function Register(){
 

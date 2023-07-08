@@ -1,5 +1,5 @@
 import axios from "axios"
-import { POST_USER_ERROR, POST_USER_REQUEST, POST_USER_SUCESS } from "../interface-action"
+import { POST_USER_ERROR, POST_USER_REQUEST, POST_USER_SUCESS,  } from "./interface-action"
 import { urlApi } from "../../../service/api"
 
 const postNewUser = (payload: IUserData) => {

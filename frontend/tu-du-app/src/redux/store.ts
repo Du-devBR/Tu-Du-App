@@ -1,13 +1,14 @@
-import { applyMiddleware, combineReducers, legacy_createStore } from "redux";
-import { IRegistrationState, RegitrationReducer } from "./reducer/reducer"
-import thunk from "redux-thunk";
+import { applyMiddleware, combineReducers, legacy_createStore } from 'redux';
+
+import thunk from 'redux-thunk';
+import { IRegistrationState, RegitrationReducer } from './reducer/register/reducer';
 
 export type IRootState = {
-  register: IRegistrationState ;
-}
+  register: IRegistrationState;
+};
 
 const reducer = combineReducers({
   register: RegitrationReducer,
-})
+});
 
-export const appStore = legacy_createStore(reducer, applyMiddleware(thunk))
+export const appStore = legacy_createStore(reducer, applyMiddleware(thunk));
