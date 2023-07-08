@@ -7,7 +7,7 @@ import { fetchPostUser } from "../../redux/reducer/actions"
 export function Register(){
 
   const dispatch = useDispatch()
-  const {error} = useSelector((store: IRootState) => store.register)
+  const {error, loading, sucess} = useSelector((store: IRootState) => store.register)
   const [registerData, setRegisterData] = useState<IUserData>({
     name: "",
     lastname: "",
@@ -18,11 +18,11 @@ export function Register(){
 
   function teste (event: Event) {
     event.preventDefault()
-    dispatch(fetchPostUser(registerData))
+    dispatch<any>(fetchPostUser(registerData))
     console.log(registerData)
   }
 
-  console.log(error)
+  console.log(sucess)
 
   // useEffect(() => {
   //   if (newUser === null && error !== null) {
@@ -35,7 +35,8 @@ export function Register(){
    <div>
      <h2>Registre-se agora mesmo</h2>
      <div>
-      {error && <p>Error: {error}</p>}
+      {loading && sucess ? <p>Produto cadastrado</p> : loading ? <p>Carregando</p> : <p></p>}
+     {error ? <p>Erro ao cadatrar</p> : <p></p>}
     </div>
      <form action="" onSubmit={(event) => teste(event)}>
       <div>
