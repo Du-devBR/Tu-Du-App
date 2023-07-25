@@ -6,3 +6,8 @@ interface IUserData {
   confirmePassword:string,
   role: string,
 }
+
+interface ILoginUser {
+  username: string,
+  password: string,
+}
