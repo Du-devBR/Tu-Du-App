@@ -1,4 +1,5 @@
 import axios from "axios";
+import { toast } from "react-toastify";
 import { urlApi } from "../../../service/api";
 import { POST_LOGIN_ERROR, POST_LOGIN_REQUEST, POST_LOGIN_SUCCESS } from "./interface-action";
 
@@ -25,6 +26,7 @@ const postLoginUserRequest = (payload: boolean) => {
 
 
 export const fetchPostLogin = (loginData: ILoginUser) => {
+
   return async(dispatch: any) => {
     dispatch(postLoginUserRequest(true))
     try {
@@ -32,8 +34,12 @@ export const fetchPostLogin = (loginData: ILoginUser) => {
         `${urlApi}/api/login`, loginData
       )
       dispatch(postLoginUser(response.data))
+      localStorage.setItem("token", response.data.token)
+      toast.success("Login feito com sucesso!!!")
+
     } catch (error) {
       dispatch(postLoginUserError(true))
+      toast.error("Usuario ou senha incorreto")
     }
   }
 }
