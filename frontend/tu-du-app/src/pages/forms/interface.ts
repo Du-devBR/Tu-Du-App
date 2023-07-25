@@ -3,5 +3,6 @@ interface IUserData {
   lastname: string,
   username: string,
   password: string,
+  confirmePassword:string,
   role: string,
 }

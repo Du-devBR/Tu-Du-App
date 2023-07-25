@@ -44,6 +44,9 @@ export default {
       yellow: {
         1000: "#F2C94C",
         100: "#F9EECF"
+      },
+      error: {
+        
       }
     },
     extend: {

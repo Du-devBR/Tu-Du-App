@@ -1,4 +1,5 @@
 import axios from "axios"
+import {toast} from 'react-toastify'
 import { POST_USER_ERROR, POST_USER_REQUEST, POST_USER_SUCESS,  } from "./interface-action"
 import { urlApi } from "../../../service/api"
 
@@ -31,8 +32,10 @@ export const fetchPostUser = (userData: IUserData) => {
         `${urlApi}/api/user`, userData
       )
       dispatch(postNewUser(response.data))
+      toast.success("Usuario cadastrado")
     } catch (error) {
       dispatch(postNewUserError(true))
+      toast.error("Erro ao cadastrar usuario!")
     }
   }
 }
