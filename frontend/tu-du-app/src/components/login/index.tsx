@@ -11,7 +11,7 @@ export function Login(){
 
   const dispatch = useDispatch()
   const navigate = useNavigate()
-  const {loading, sucess, error} = useSelector((store: IRootState) => store.login)
+  const {loading, sucess, error, data} = useSelector((store: IRootState) => store.login)
 
   const [errorEmail, setErrorEmail] = useState(false)
   const [errorPassword, setErrorPassword] = useState(false)
@@ -25,6 +25,9 @@ export function Login(){
     event.preventDefault()
     dispatch<any>(fetchPostLogin(loginUser))
   }
+
+  console.log(data);
+
 
   useEffect(() => {
     if(sucess) {

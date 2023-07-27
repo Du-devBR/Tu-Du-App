@@ -34,7 +34,8 @@ export const fetchPostLogin = (loginData: ILoginUser) => {
         `${urlApi}/api/login`, loginData
       )
       dispatch(postLoginUser(response.data))
-      localStorage.setItem("token", response.data.token)
+      localStorage.setItem("user", response.data.token)
+      localStorage.setItem("id", response.data.userId)
       toast.success("Login feito com sucesso!!!")
 
     } catch (error) {
