@@ -1,27 +1,47 @@
 import { useDispatch, useSelector } from "react-redux"
 import { IRootState } from "../../redux/store"
-import { useEffect } from "react"
+import { FormEvent, useEffect, useState } from "react"
 import { fetchGetTasks } from "../../redux/reducer/tasks/actionGet"
+import { fetchPostTask } from "../../redux/reducer/tasks/actionPost"
+import { fetchFinishedTask, fetchStartTask } from "../../redux/reducer/tasks/actionPut"
 
 export function Home(){
 
   const dispatch = useDispatch()
-  const {error, loading, taskStatus} = useSelector((store: IRootState) => store.tasks)
+  const {error, loading, taskStatus, success} = useSelector((store: IRootState) => store.tasks)
+
+  const [task, setTask] = useState<ITaskData>({
+    title: "",
+    description: "",
+    statusTask: "ABERTO",
+    category: "ESTUDOS"
+  })
 
   useEffect(() => {
-    dispatch<any>(fetchGetTasks())
+        dispatch<any>(fetchGetTasks())
+  }, [dispatch, success])
 
-  }, [dispatch])
+  function salvarTask(event: FormEvent<HTMLFormElement>){
+    event.preventDefault()
+    dispatch<any>(fetchPostTask(task))
+  }
 
-  console.log("dados: " + JSON.stringify(taskStatus))
+
   return(
     <div>
-      <div>
+      <form action="" onSubmit={salvarTask}>
+        <input type="text" onChange={(event) => setTask({...task, title: event.target.value})}/>
+        <input type="text" onChange={(event) => setTask({...task, description: event.target.value})}/>
+        <button type="submit">Salvar</button>
+      </form>
+      <div className="flex gap-1">
         <h2>Status: Aberto</h2>
         {
           taskStatus.ABERTO?.map((task: ITaskData) => (
-            <div key={task.title}>
-              <p>{task.title}</p>
+            <div key={task.id}>
+              <p>id: {task.id} - {task.title}</p>
+              <button onClick={() => task.id && dispatch<any>(fetchStartTask(task.id))}>iniciar</button>
+              <button onClick={() => task.id && dispatch<any>(fetchFinishedTask(task.id))}>Concluir</button>
             </div>
           ))
         }
@@ -31,8 +51,10 @@ export function Home(){
         <h2>Status: Iniciado</h2>
         {
           taskStatus.INICIADO?.map((task: ITaskData) => (
-            <div key={task.title}>
-              <p>{task.title}</p>
+            <div key={task.id}>
+              <p>id: {task.id} - {task.title}</p>
+              <button onClick={() => task.id && dispatch<any>(fetchStartTask(task.id))}>iniciar</button>
+              <button onClick={() => task.id && dispatch<any>(fetchFinishedTask(task.id))}>Concluir</button>
             </div>
           ))
         }
@@ -41,17 +63,12 @@ export function Home(){
         <h2>Status: Concluido</h2>
         {
           taskStatus.CONCLUIDO?.map((task: ITaskData) => (
-            <div key={task.title}>
-              <p>{task.title}</p>
+            <div key={task.id}>
+              <p>id: {task.id} - {task.title}</p>
             </div>
           ))
         }
       </div>
-      {/* {
-        data?.map((task: ITaskData) => (
-          <p>{task.title}</p>
-        ))
-      } */}
       {
         loading ? (
           <p>...carregando</p>

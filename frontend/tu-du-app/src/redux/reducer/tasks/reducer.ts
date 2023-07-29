@@ -1,9 +1,11 @@
-import { Action } from "./interface-action";
+
+import { Action} from "./interface-action";
 
 export interface ITasksState {
   loading: boolean | null;
   data: ITaskData[] | null;
   error: boolean | null;
+  success: boolean | null;
   taskStatus: {
     ABERTO: ITaskData[] | null,
     INICIADO: ITaskData[] | null,
@@ -15,6 +17,7 @@ const INITIAL_STATE: ITasksState = {
   loading: false,
   error: false,
   data: [],
+  success: false,
   taskStatus: {
     ABERTO: [],
     INICIADO: [],
@@ -53,6 +56,54 @@ export function TasksReducer(state=INITIAL_STATE, action: Action){
         error: false,
         loading: action.payload
       }
+
+    case "POST_TASK_DATA":
+      return{
+        ...state,
+        data: action.payload,
+        loading: false,
+        success: true
+      }
+
+    case "POST_TASK_REQUEST":
+      return{
+        ...state,
+        data: null,
+        loading: true,
+        success: false
+      }
+
+    case "PUT_START_TASK_REQUEST":
+      return{
+        ...state,
+        data: null,
+        loading: true,
+        success: false
+      }
+
+     case "PUT_START_TASK_SUCCESS":
+      return {
+        ...state,
+        data: action.payload,
+        loading: false,
+        success: true
+      };
+
+    case "PUT_FINISHED_TASK_REQUEST":
+      return{
+        ...state,
+        data: null,
+        loading: true,
+        success: false
+      }
+
+     case "PUT_FINISHED_TASK_SUCCESS":
+      return {
+        ...state,
+        data: action.payload,
+        loading: false,
+        success: true
+      };
     default: {
       return state;
     }
