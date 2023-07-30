@@ -8,6 +8,9 @@ export const PUT_START_TASK_SUCCESS = "PUT_START_TASK_SUCCESS"
 export const PUT_START_TASK_REQUEST = "PUT_START_TASK_REQUEST"
 export const PUT_FINISHED_TASK_SUCCESS = "PUT_FINISHED_TASK_SUCCESS"
 export const PUT_FINISHED_TASK_REQUEST = "PUT_FINISHED_TASK_REQUEST"
+export const DELETE_TASK_SUCCESS = "DELETE_TASK_SUCCESS"
+export const DELETE_TASK_REQUEST = "DELETE_TASK_REQUEST"
+
 interface IActionGetTasksSuccess {
   type: "GET_TASKS_SUCCESS",
   payload: ITaskData
@@ -45,7 +48,7 @@ interface IActionPutStartTaskSuccess {
 
 interface IActionPutStartTaskRequest {
   type: "PUT_START_TASK_REQUEST",
-  payload: ITaskData
+  payload: boolean
 }
 
 interface IActionPutFinishedTaskSuccess {
@@ -55,7 +58,17 @@ interface IActionPutFinishedTaskSuccess {
 
 interface IActionPutFinishedTaskRequest {
   type: "PUT_FINISHED_TASK_REQUEST",
+  payload: boolean
+}
+
+interface IActionDeleteTaskSuccess {
+  type: "DELETE_TASK_SUCCESS",
   payload: ITaskData
+}
+
+interface IActionDeleteTaskRequest {
+  type: "DELETE_TASK_REQUEST",
+  payload: boolean
 }
 
 export type Action = |
@@ -68,4 +81,6 @@ export type Action = |
   IActionPutStartTaskSuccess |
   IActionPutStartTaskRequest |
   IActionPutFinishedTaskSuccess |
-  IActionPutFinishedTaskRequest
+  IActionPutFinishedTaskRequest |
+  IActionDeleteTaskSuccess |
+  IActionDeleteTaskRequest

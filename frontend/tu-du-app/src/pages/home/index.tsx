@@ -4,6 +4,7 @@ import { FormEvent, useEffect, useState } from "react"
 import { fetchGetTasks } from "../../redux/reducer/tasks/actionGet"
 import { fetchPostTask } from "../../redux/reducer/tasks/actionPost"
 import { fetchFinishedTask, fetchStartTask } from "../../redux/reducer/tasks/actionPut"
+import { fetchDeleteTask } from "../../redux/reducer/tasks/actionDelete"
 
 export function Home(){
 
@@ -42,6 +43,7 @@ export function Home(){
               <p>id: {task.id} - {task.title}</p>
               <button onClick={() => task.id && dispatch<any>(fetchStartTask(task.id))}>iniciar</button>
               <button onClick={() => task.id && dispatch<any>(fetchFinishedTask(task.id))}>Concluir</button>
+              <button onClick={() => task.id && dispatch<any>(fetchDeleteTask(task.id))}>Delete</button>
             </div>
           ))
         }
@@ -55,6 +57,7 @@ export function Home(){
               <p>id: {task.id} - {task.title}</p>
               <button onClick={() => task.id && dispatch<any>(fetchStartTask(task.id))}>iniciar</button>
               <button onClick={() => task.id && dispatch<any>(fetchFinishedTask(task.id))}>Concluir</button>
+              <button onClick={() => task.id && dispatch<any>(fetchDeleteTask(task.id))}>Delete</button>
             </div>
           ))
         }
@@ -65,6 +68,7 @@ export function Home(){
           taskStatus.CONCLUIDO?.map((task: ITaskData) => (
             <div key={task.id}>
               <p>id: {task.id} - {task.title}</p>
+              <button onClick={() => task.id && dispatch<any>(fetchDeleteTask(task.id))}>Delete</button>
             </div>
           ))
         }

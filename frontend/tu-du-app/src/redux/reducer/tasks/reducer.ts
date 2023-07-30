@@ -104,6 +104,22 @@ export function TasksReducer(state=INITIAL_STATE, action: Action){
         loading: false,
         success: true
       };
+
+    case "DELETE_TASK_REQUEST":
+      return{
+        ...state,
+        data: null,
+        loading: true,
+        success: false
+      }
+
+     case "DELETE_TASK_SUCCESS":
+      return {
+        ...state,
+        data: action.payload,
+        loading: false,
+        success: true
+      };
     default: {
       return state;
     }
